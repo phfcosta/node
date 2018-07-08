@@ -1,0 +1,48 @@
+<% include ../header %>
+<header>
+	<h2>Ntalk - Agenda de contatos</h2>
+</header>
+<table>
+	<section>
+		<form action="/contatos" method="post">
+			<input type="hidden" name="_method" value="post">
+			<label>Nome:</label>
+			<input type="text" name="contato[nome]" value="" placeholder="nome do contato">
+			<label>E-mail:</label>
+			<input type="text" name="contato[email]" value="" placeholder="email do contato">
+			<button type="submit">Cadastrar</button>
+		</form>
+	</section>
+	<thead>
+		<tr>
+			<th>Nome</th>
+			<th>Email</th>
+			<th>Status</th>
+			<th>Ação</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<%  if(contatos){
+
+				contatos.forEach(function(contato){ %>
+		
+		<tr>
+			<td><%- contato.nome %></td>
+			<td><%- contato.email %></td>
+			<td>
+				<span id="notify_<%- contato.email %>" class="label">Offline</span>
+			</td>
+			<td>
+				<a href="/contato/<%- contato._id %>">Detalhes</a>
+				<a href="/chat/<%- contato.email %>" id="chat_<%- contato.email %>">Conversar</a>
+			</td>
+
+		</tr>
+		<%		});
+			} %>
+	</tbody>
+</table>
+<%include ../notify_script %>
+<%include ../exit %>
+<%include ../footer %>

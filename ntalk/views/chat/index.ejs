@@ -1,0 +1,40 @@
+<% include ../header %>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	var socket =  io.connect('');
+	console.log('teste client');
+
+	socket.emit('join', '<%- sala %>');
+
+	socket.on('send-client',function(msg){
+		console.log('socket on send client')
+		var chat = document.getElementById('chat')
+		chat.innerHTML += msg;
+
+	});
+
+	socket.on('connecting', function(){
+		console.log('conectando no socket');
+	});
+
+	socket.on('connect_failed', function(){
+		console.log('falha na conexão');
+	});
+
+	var enviar = function(){
+
+		var msg = document.getElementById('msg');
+		console.log('enviando mensagem ' + msg.value);
+		socket.emit('send-server', msg.value);
+	}
+</script>
+<header>
+	<h2>Ntalk - Agenda de contatos</h2>
+</header>
+<section>
+	<pre id="chat"></pre>
+	<input type="text" id="msg" placeholder="Mensagem">
+	<button onclick="enviar();">Enviar</button>
+</section>
+<%include ../exit %>
+<%include ../footer %>
